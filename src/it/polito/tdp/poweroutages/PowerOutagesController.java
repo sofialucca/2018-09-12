@@ -5,6 +5,7 @@
 package it.polito.tdp.poweroutages;
 
 import java.net.URL;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.poweroutages.model.Model;
@@ -48,11 +49,29 @@ public class PowerOutagesController {
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	this.model.creaGrafo();
+    	txtResult.clear();
+    	txtResult.appendText("Grafo creato!");
+
     }
 
     @FXML
     void doSimula(ActionEvent event) {
+    	int k;
+    	try {
+    		k = Integer.parseInt(txtK.getText());
+    	} catch(NumberFormatException e) {
+    		txtResult.appendText("Devi inserire un numero");
+    		return;
+    	}
     	
+    	this.model.simula(k);
+    	txtResult.clear();
+    	txtResult.appendText("NUMERO CATASTROFI: " + this.model.getCatastrofi());
+    	txtResult.appendText("\nBONUS:\n");
+    	
+    	for(Nerc nerc : this.model.getBounus().keySet()) {
+        	txtResult.appendText(nerc + "\t" + this.model.getBounus().get(nerc) + "\n");
+    	}   	
     }
 
     @FXML
